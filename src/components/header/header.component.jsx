@@ -3,7 +3,7 @@ import "./header.styles.scss";
 import { GiClothes } from "react-icons/gi";
 import { Link } from "react-router-dom";
 
-export const Header = () => (
+const Header = () => (
   <div className="header">
     <div className="logo-container">
       <GiClothes />
@@ -21,3 +21,4 @@ export const Header = () => (
     </div>
   </div>
 );
+export default Header;
