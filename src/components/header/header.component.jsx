@@ -2,8 +2,9 @@ import React from "react";
 import "./header.styles.scss";
 import { GiClothes } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase/firebase.utils";
 
-const Header = () => (
+const Header = ({ currentUser }) => (
   <div className="header">
     <div className="logo-container">
       <GiClothes />
@@ -15,9 +16,15 @@ const Header = () => (
       <Link className="option" to="/contact">
         Contact
       </Link>
-      <Link className="option" to="/signIn">
-        Sign Out
-      </Link>
+      {currentUser ? (
+        <div className="option" onClick={() => auth.signOut()}>
+          Sign Out
+        </div>
+      ) : (
+        <Link className="option" to="/signIn">
+          Sign In
+        </Link>
+      )}
     </div>
   </div>
 );
