@@ -15,10 +15,12 @@ class SignIn extends React.Component {
   }
 
   handleSubmit = async (e) => {
+    e.preventDefault();
     const { email, password } = this.state;
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      const userRef = await auth.signInWithEmailAndPassword(email, password);
+      console.log(userRef);
       this.setState({
         email: "",
         password: "",
