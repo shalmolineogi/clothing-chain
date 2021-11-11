@@ -20,6 +20,9 @@ class SignUp extends React.Component {
     if (password !== confirmPassword) {
       alert("Password and Confirm password didn't match!");
       return;
+    } else if (password.length < 6) {
+      alert("Password length should be >=6");
+      return;
     }
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
