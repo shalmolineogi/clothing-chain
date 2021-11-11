@@ -10,7 +10,7 @@ const FormInput = ({ handleChange, label, ...otherProps }) => (
           otherProps.value.length ? "shrink" : ""
         } form-input-label`}
       >
-        {label.toUpperCase()}
+        {label}
       </label>
     ) : null}
   </div>
