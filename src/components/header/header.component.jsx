@@ -2,6 +2,7 @@ import React from "react";
 import "./header.styles.scss";
 // import { GiClothes } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
 import { ReactComponent as Logo } from "../../assests/shopping-store.svg";
 
@@ -18,9 +19,9 @@ const Header = ({ currentUser }) => (
         Contact
       </Link>
       {currentUser ? (
-        <Link className="option" onClick={() => auth.signOut()} to="/signIn">
+        <div className="option" onClick={() => auth.signOut()}>
           Sign Out
-        </Link>
+        </div>
       ) : (
         <Link className="option" to="/signIn">
           Sign In
@@ -29,4 +30,11 @@ const Header = ({ currentUser }) => (
     </div>
   </div>
 );
-export default Header;
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    currentUser: state.user.currentUser,
+  };
+};
+export default connect(mapStateToProps)(Header);
