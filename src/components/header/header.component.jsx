@@ -4,7 +4,7 @@ import "./header.styles.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
-import { ReactComponent as Logo } from "../../assests/shopping-store.svg";
+import { ReactComponent as Logo } from "../../assets/shopping-store.svg";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selector";

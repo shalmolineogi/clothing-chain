@@ -1,6 +1,6 @@
 import React from "react";
 import "./cart-icon.styles.scss";
-import { ReactComponent as ShoppingCart } from "../../assests/shopping-bag.svg";
+import { ReactComponent as ShoppingCart } from "../../assets/shopping-bag.svg";
 import { connect } from "react-redux";
 import { toggleCart } from "../../redux/cart/cart.action";
 import { selectTotalItemCount } from "../../redux/cart/cart.selector";
