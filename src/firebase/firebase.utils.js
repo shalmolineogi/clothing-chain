@@ -49,5 +49,46 @@ export const createUserAccount = async (userAuth, additionalData) => {
   }
   return userRef;
 };
+export const addCollectionAndDocuments = async (
+  collectionName,
+  objectToAdd
+) => {
+  const collectionRef = firestore.collection(collectionName);
+  const batch = firestore.batch();
+  objectToAdd.forEach((docRef) => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, docRef);
+  });
+
+  return await batch.commit();
+};
+
+export const retrieveShopData = (collections) => {
+  // const collRef = firestore.collection("collections");
+  // const querySnapshot =  collRef.get();
+  console.log(collections.docs);
+  const transformedObject = collections.docs.map((object) => {
+    console.log(object);
+    const { title, items } = object.data();
+    return {
+      id: object.id,
+      routeName: title.toLowerCase(),
+      title,
+      items,
+    };
+  });
+  // console.log(transformedObject);
+  return transformedObject.reduce((acc, curr) => {
+    acc[curr.title.toLowerCase()] = curr;
+    return acc;
+  }, {});
+  // console.log(shopData);
+  // console.log(
+  //   snapshot.docs.forEach((element) => {
+  //     console.log(element.data());
+  //   })
+  // );
+  // return shopData;
+};
 
 export default firebase;

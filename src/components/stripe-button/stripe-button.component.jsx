@@ -17,7 +17,7 @@ const StripeCheckoutButton = ({ price }) => {
         label="Pay Now"
         name="Clothing Chain Pvt. Ltd."
         description={`Your total is $${price}`}
-        image="https://ibb.co/BGm9R7N"
+        image="https://ibb.co/BGm9R7N/shopping-store.png"
         stripeKey={publishableKey}
         amount={priceForStripe}
         currency="USD"
