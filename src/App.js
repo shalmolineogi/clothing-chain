@@ -4,14 +4,10 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shoppage/shoppage.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUP from "./pages/sign-up-and-sign-in-page/sign-up-and-sign-in-page.component";
-import {
-  // addCollectionAndDocuments,
-  auth,
-  createUserAccount,
-} from "./firebase/firebase.utils";
+
 import { connect } from "react-redux";
 import React from "react";
-import setCurrentUser from "./redux/user/user.action";
+import { checkUserSession } from "./redux/user/user.action";
 import { selectCurrentUser } from "./redux/user/user.selector";
 import CheckOutPage from "./pages/checkoutpage/checkoutpage.component";
 import { createStructuredSelector } from "reselect";
@@ -21,22 +17,23 @@ class App extends React.Component {
   unSubscribeFromAuth = null;
   componentDidMount() {
     const {
-      setCurrentUser,
+      checkUserSession,
       // collections
     } = this.props;
-    this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserAccount(userAuth);
-        const snapshot = await userRef.get();
-        const userData = snapshot.data();
-        setCurrentUser({
-          id: userRef.id,
-          ...userData,
-        });
-      } else {
-        setCurrentUser(userAuth);
-      }
-    });
+    checkUserSession();
+    // this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+    //   if (userAuth) {
+    //     const userRef = await createUserAccount(userAuth);
+    //     const snapshot = await userRef.get();
+    //     const userData = snapshot.data();
+    //     checkUserSession({
+    //       id: userRef.id,
+    //       ...userData,
+    //     });
+    //   } else {
+    //     checkUserSession(userAuth);
+    //   }
+    // });
 
     // addCollectionAndDocuments(
     //   "collections",
@@ -73,7 +70,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  checkUserSession: () => dispatch(checkUserSession()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

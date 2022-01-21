@@ -23,9 +23,9 @@ firebase.initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export const createUserAccount = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -82,13 +82,15 @@ export const retrieveShopData = (collections) => {
     acc[curr.title.toLowerCase()] = curr;
     return acc;
   }, {});
-  // console.log(shopData);
-  // console.log(
-  //   snapshot.docs.forEach((element) => {
-  //     console.log(element.data());
-  //   })
-  // );
-  // return shopData;
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };
 
 export default firebase;

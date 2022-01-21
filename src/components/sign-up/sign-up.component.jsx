@@ -1,8 +1,9 @@
 import React from "react";
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
-import { auth, createUserAccount } from "../../firebase/firebase.utils";
 import "./sign-up.styles.scss";
+import { connect } from "react-redux";
+import { signUpStart } from "../../redux/user/user.action";
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,7 @@ class SignUp extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { signUpStart } = this.props;
     const { displayName, email, password, confirmPassword } = this.state;
     if (password !== confirmPassword) {
       alert("Password and Confirm password didn't match!");
@@ -24,22 +26,19 @@ class SignUp extends React.Component {
       alert("Password length should be >=6");
       return;
     }
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      const { userRef } = await createUserAccount(user, { displayName });
-      console.log(userRef);
-      this.setState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
-      console.error(error);
-    }
+
+    signUpStart({ email, password, displayName });
+    // try {
+    //   const { user } = await auth.createUserWithEmailAndPassword(
+    //     email,
+    //     password
+    //   );
+    //   const { userRef } = await createUserAccount(user, { displayName });
+    //   console.log(userRef);
+
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   handleChange = (e) => {
@@ -47,6 +46,9 @@ class SignUp extends React.Component {
     this.setState({
       [name]: value,
     });
+    console.log(e.target);
+    console.log("name", name);
+    console.log("value", value);
   };
   render() {
     return (
@@ -60,7 +62,7 @@ class SignUp extends React.Component {
             value={this.state.displayName}
             handleChange={this.handleChange}
             label="Display Name"
-            required
+            // dropdown={["A", "B", "C"]}
           />
           <FormInput
             type="email"
@@ -95,4 +97,7 @@ class SignUp extends React.Component {
     );
   }
 }
-export default SignUp;
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
+});
+export default connect(null, mapDispatchToProps)(SignUp);

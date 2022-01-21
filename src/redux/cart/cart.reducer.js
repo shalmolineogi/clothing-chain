@@ -4,6 +4,7 @@ import { addItemToCart, removeItemFromCart } from "./cart.utils";
 const INITIAL_STATE = {
   hidden: true,
   cartItems: [],
+  cartAddToUserError: null,
 };
 const cartReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -28,6 +29,21 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cartItems: removeItemFromCart(state.cartItems, action.payload),
+      };
+    case cartActionType.CLEAR_CART:
+      return {
+        ...state,
+        cartItems: [],
+      };
+    case cartActionType.INITIALIZE_CART:
+      return {
+        ...state,
+        cartItems: action.payload,
+      };
+    case cartActionType.ADDING_CART_TO_USER_FAILURE:
+      return {
+        ...state,
+        cartAddToUserError: action.payload,
       };
     default:
       return state;
